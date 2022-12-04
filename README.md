@@ -1,73 +1,12 @@
-# Data analysis
-- Document here the project: dengue_fever
-- Description: Project Description
-- Data Source:
-- Type of analysis:
+# Predicting Dengue Fever outbreaks using environmental variables
 
-Please document the project the better you can.
+- Description: Using environmental data collected by various U.S. Federal Government agencies—from the Centers for Disease Control and Prevention to the National Oceanic and Atmospheric Administration in the U.S. Department of Commerce— can we predict the number of dengue fever cases reported each week in San Juan, Puerto Rico and Iquitos, Peru?
+- Data Source: https://www.drivendata.org/competitions/44/dengai-predicting-disease-spread/page/80/
+- Type of analysis: Data Analysis, Regression modeling and Deep learning
 
-# Startup the project
+## Problem Statement
+Dengue fever is a mosquito-borne disease that occurs in tropical and sub-tropical parts of the world. In mild cases, symptoms are similar to the flu: fever, rash, and muscle and joint pain. In severe cases, dengue fever can cause severe bleeding, low blood pressure, and even death. Because it is carried by mosquitoes, the transmission dynamics of dengue are related to climate variables such as temperature and precipitation.
 
-The initial setup.
+Our task is to predict the number of dengue cases each week in San Juan and Iquitos based on environmental variables describing changes in temperature, precipitation, vegetation, and more.
 
-Create virtualenv and install the project:
-```bash
-sudo apt-get install virtualenv python-pip python-dev
-deactivate; virtualenv ~/venv ; source ~/venv/bin/activate ;\
-    pip install pip -U; pip install -r requirements.txt
-```
-
-Unittest test:
-```bash
-make clean install test
-```
-
-Check for dengue_fever in github.com/{group}. If your project is not set please add it:
-
-Create a new project on github.com/{group}/dengue_fever
-Then populate it:
-
-```bash
-##   e.g. if group is "{group}" and project_name is "dengue_fever"
-git remote add origin git@github.com:{group}/dengue_fever.git
-git push -u origin master
-git push -u origin --tags
-```
-
-Functionnal test with a script:
-
-```bash
-cd
-mkdir tmp
-cd tmp
-dengue_fever-run
-```
-
-# Install
-
-Go to `https://github.com/{group}/dengue_fever` to see the project, manage issues,
-setup you ssh public key, ...
-
-Create a python3 virtualenv and activate it:
-
-```bash
-sudo apt-get install virtualenv python-pip python-dev
-deactivate; virtualenv -ppython3 ~/venv ; source ~/venv/bin/activate
-```
-
-Clone the project and install it:
-
-```bash
-git clone git@github.com:{group}/dengue_fever.git
-cd dengue_fever
-pip install -r requirements.txt
-make clean install test                # install and test
-```
-Functionnal test with a script:
-
-```bash
-cd
-mkdir tmp
-cd tmp
-dengue_fever-run
-```
+An understanding of the relationship between climate and dengue dynamics could improve research initiatives and resource allocation to help fight life-threatening pandemics.
