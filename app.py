@@ -14,7 +14,22 @@ import json
 st.set_page_config(page_title="Dengue Fever Forecast",
                    page_icon="😷")
 
-header1, header2= st.columns(2)
+# Use local CSS
+def local_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+local_css("style.css")
+# Load Animation
+animation_symbol = "🦟"
+st.markdown(
+    f"""
+    <div class="snowflake">{animation_symbol}</div>
+    """,
+    unsafe_allow_html=True,
+)
+
+# Space out the maps so the first one is 2x the size of the other three
+header1, header2 = st.columns((3, 1))
 facts= st.container()
 explanation=st.container()
 predict1 = st.container()
