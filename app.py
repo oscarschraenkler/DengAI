@@ -174,7 +174,7 @@ City = st.selectbox('Select City:', ('-','San Juan, Puerto Rico', 'Iquitos, Peru
 
 if City=='San Juan, Puerto Rico':
     if (san_juan[0]+san_juan[1]) > 66:
-        st.header('High Dengue Fever Risk in San Juan ⚠️')
+        st.header('High Dengue Fever Risk in San Juan 🚨')
     elif (san_juan[0]+san_juan[1]) > 29 and iquitos[0] < 67:
         st.header('Medium Dengue Fever Risk in San Juan ⚠️')
     else:
@@ -190,7 +190,7 @@ if City=='San Juan, Puerto Rico':
         st.header(f'{san_juan[1]} cases')
 elif City=='Iquitos, Peru':
     if (iquitos[0]+iquitos[1]) > 16:
-        st.header('High Dengue Fever Risk in Iquitos ⚠️')
+        st.header('High Dengue Fever Risk in Iquitos 🚨')
     elif (iquitos[0]+iquitos[1]) > 5 and (iquitos[0]+iquitos[1]) < 17:
         st.header('Medium Dengue Fever Risk in Iquitos ⚠️')
     else:
