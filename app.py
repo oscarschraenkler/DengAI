@@ -12,7 +12,7 @@ from streamlit_lottie import st_lottie
 import json
 
 st.set_page_config(page_title="Dengue Fever Forecast",
-                   page_icon="😷")
+                   page_icon="😷",layout="centered")
 
 # Use local CSS
 def local_css(file_name):
@@ -213,10 +213,10 @@ elif City=='Iquitos, Peru':
 else:
     block1, block2, block3= st.columns(3)
     with block2:
-        lottie_mosquito= load_lottieurl('https://assets2.lottiefiles.com/packages/lf20_trge7v5t.json')
+        lottie_mosquito= load_lottieurl('https://assets9.lottiefiles.com/packages/lf20_kqacgm7o.json')
         st_lottie(
         lottie_mosquito,
-        speed=1,
+        speed=2,
         reverse=False,
-        width=100,
+        width=180,
         quality="low")
