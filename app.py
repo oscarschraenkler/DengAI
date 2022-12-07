@@ -14,10 +14,10 @@ import json
 st.set_page_config(page_title="Dengue Fever Forecast",
                    page_icon="😷",layout="centered")
 
-# st.markdown(""" <style>
-# #MainMenu {visibility: hidden;}
-# footer {visibility: hidden;}
-# </style> """, unsafe_allow_html=True)
+st.markdown(""" <style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+</style> """, unsafe_allow_html=True)
 
 # Space out the maps so the first one is 2x the size of the other three
 header1, header2 = st.columns((3, 1))
@@ -28,7 +28,7 @@ with header1:
     st.title('Dengue Fever Forecast')
     st.markdown('Created by Oscar Schraenkler, Anton Kleihues & Tizian Hamm')
 with header2:
-    image = Image.open('image/dengai_new.PNG')
+    image = Image.open('image/dengai_new.png')
     st.image(image, width=180)
 with explanation:
     st.header('The Model')
