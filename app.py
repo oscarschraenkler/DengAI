@@ -2,16 +2,68 @@ import streamlit as st
 
 import pandas as pd
 import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
 from scipy.integrate import cumtrapz
+import pickle
+from PIL import Image
 import requests
+from datetime import date
+from datetime import timedelta
+from streamlit_lottie import st_lottie
+import json
 
-from sklearn.preprocessing import MinMaxScaler
+st.set_page_config(page_title="Dengue Fever Forecast",
+                   page_icon="😷")
 
-#Models
-from sklearn.ensemble import RandomForestRegressor
-
+header1, header2= st.columns(2)
+facts= st.container()
+explanation=st.container()
+features=st.container()
+predict1, predict2= st.columns(2)
+with header1:
+    st.title('Dengue Fever Forecast')
+    st.markdown('Created by Oscar Schraenkler, Anton Kleihues & Tizian Hamm')
+with header2:
+    image = Image.open('image/dengai_new.PNG')
+    st.image(image, width=180)
+with explanation:
+    st.header('The Model')
+    st.markdown('The model uses environmental variables to predict future weekly cases of Dengue Fever.')
+    with st.expander('Read more...'):
+        st.write("The model was trained on climate-related data collected in San Juan, Puerto Rico and Iquitos, Peru. A peak boosting method implementing calculus functions was then mapped on to the predictions to exaggerate the large outbreaks, increasing the accuracy of our predictions.")
+with features:
+    st.header('Most Important Features:')
+    st.markdown('* **Humidity:** The concentration of water vapor present in the air.')
+    st.markdown('* **Dew point temperature:** The temperature to which air must be cooled to become saturated with water vapor, assuming constant air pressure and water content.')
+    st.markdown('* **Air temperature:** The temperature of the air in a location.')
+    with st.expander('Read more...'):
+        st.markdown('* **Precipitation:** Any product of the condensation of atmospheric water vapor that falls under gravitational pull from clouds.')
+        st.markdown('* **Diurnal temperature range:** The range between the highest and lowest air temperature that occurs during the same day.')
+        st.markdown('* **Normalized Difference Vegetation Index:** An indicator that describes the relative density and health of vegetation in an area.')
+with facts:
+    st.header('About Dengue Fever')
+    st.markdown('Dengue Fever is a mosquito-borne virus that occurs in tropical regions of the world that can cause high fever, headaches, vomiting, a characteristic skin itching and skin rash, and even death.')
+    with st.expander('Read more...'):
+        st.markdown('The global incidence of dengue has grown dramatically with about half of the worlds population now at risk, and is estimated to cause a global economic burden of $8.9 billion per year.')
+        st.markdown('The transmission dynamics of dengue are related to climate variables such as temperature and humidity.')
+        st.markdown('**Dengue cases distribution throughout the year in San Juan, Puerto Rico and Iquitos, Peru:**')
+        image = Image.open('image/distribution.png')
+        st.image(image)
+def load_lottieurl(url: str):
+    r= requests.get(url)
+    if r.status_code != 200:
+        return None
+    return r.json()
+with predict1:
+    st.header('Predict Future Cases')
+with predict2:
+    lottie_mosquito= load_lottieurl('https://assets2.lottiefiles.com/packages/lf20_trge7v5t.json')
+    st_lottie(
+        lottie_mosquito,
+        speed=1,
+        reverse=False,
+        width=100,
+        quality="low")
+# st.snow()
 
 @st.cache
 def peak_boost(preds, scalar, mixed=None):
@@ -45,47 +97,6 @@ def peak_boost(preds, scalar, mixed=None):
             Ser[k] = int(Ser[k]*2)
 
     return np.array([int(x) for x in Ser])
-
-@st.cache
-def converter(x):
-    return x-273.15
-
-@st.cache
-def preprocess_historical(data):
-
-    #Reset index to prevent issues when merging
-    reindexed_data = data.reset_index(drop = True)
-
-    #Fill nas with interpolation
-    features = reindexed_data.interpolate(method='linear')
-
-    features = features[['precipitation_amt_mm', 'station_avg_temp_c',
-           'reanalysis_dew_point_temp_k', 'station_max_temp_c','station_min_temp_c','reanalysis_relative_humidity_percent']]
-
-    #Convert kelvin to celcius
-    def converter(x):
-        return x-273.15
-    features['dew_point_temp_c'] = features['reanalysis_dew_point_temp_k'].map(converter)
-
-    df = pd.DataFrame()
-    df['precip'] = features['precipitation_amt_mm']
-    df['temp'] = features['station_avg_temp_c']
-    df['max_temp'] = features['station_max_temp_c']
-    df['min_temp'] = features['station_min_temp_c']
-    df['humidity'] = features['reanalysis_relative_humidity_percent']
-    df['dew_point'] = features['dew_point_temp_c']
-
-    #Add lagged features for 4 weeks
-    to_shift = ['precip','temp',
-       'max_temp','min_temp','humidity','dew_point']
-    for i in to_shift:
-        df[i+'_1lag'] = df[i].shift(+1)
-        df[i+'_2lag'] = df[i].shift(+2)
-        df[i+'_3lag'] = df[i].shift(+3)
-        df[i+'_4lag'] = df[i].shift(+4)
-    df = df.fillna(method='bfill')
-
-    return df
 
 @st.cache
 def preprocess_api(url):
@@ -125,49 +136,31 @@ def preprocess_api(url):
 
     return final_df
 
-data = pd.read_csv('raw_data/dengue_features_train.csv')
-labels = pd.read_csv('raw_data/dengue_labels_train.csv')
-data = data.merge(labels)
-data_sj = data.iloc[:936,:]
-data_iq = data.iloc[936:,:]
-data_sj['dew_point_temp_c'] = data_sj['reanalysis_dew_point_temp_k'].map(converter)
-sj_data = preprocess_historical(data_sj)
-iq_data = preprocess_historical(data_iq)
-
-sj_url = "https://api.open-meteo.com/v1/forecast?latitude=-3.75&longitude=-73.25&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m&models=best_match&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto&start_date=2022-06-08&end_date=2022-12-18"
-iq_url = "https://api.open-meteo.com/v1/forecast?latitude=-3.75&longitude=-73.25&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m&models=best_match&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto&start_date=2022-06-08&end_date=2022-12-18"
+from datetime import date
+# Returns the date parameters
+today = date.today()
+future = today + timedelta(days=14)
+start = today  - timedelta(days=180)
+future = str(future)
+start = str(start)
+sj_url = f"https://api.open-meteo.com/v1/forecast?latitude=-3.75&longitude=-73.25&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m&models=best_match&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto&start_date={start}&end_date={future}"
+iq_url = f"https://api.open-meteo.com/v1/forecast?latitude=-3.75&longitude=-73.25&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m&models=best_match&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto&start_date={start}&end_date={future}"
 sj_forecast = preprocess_api(sj_url)
 iq_forecast = preprocess_api(iq_url)
 
-params = {'max_depth': None,
- 'max_features': 5,
- 'min_samples_leaf': 6,
- 'min_samples_split': 3,
- 'n_estimators': 90,
- 'warm_start': False}
+pickle_in = open('iq_model.pkl', 'rb')
+iq_rf_model = pickle.load(pickle_in)
 
-iq_X = iq_data
-iq_y = data_iq.total_cases
-sj_X = sj_data
-sj_y = data_sj.total_cases
+pickle_in = open('sj_model.pkl', 'rb')
+sj_rf_model = pickle.load(pickle_in)
 
 @st.cache
-def predict(params,iq_X,iq_y,sj_X,sj_y):
-    #Initialize models
-    sj_rf_model = RandomForestRegressor(**params, criterion='absolute_error')
-    iq_rf_model = RandomForestRegressor(**params, criterion='absolute_error')
+def predict(model,input):
+    pred = model.predict(input).astype(int)
+    return pred
 
-    #Fitting models on training data
-    sj_rf_model.fit(sj_X, sj_y)
-    iq_rf_model.fit(iq_X, iq_y)
-
-    #Making predictions on training and testing data for San Juan
-    sj_pred = sj_rf_model.predict(sj_forecast).astype(int)
-    iq_pred = iq_rf_model.predict(iq_forecast).astype(int)
-    return sj_pred,iq_pred
-
-sj_pred = predict(params,iq_X,iq_y,sj_X,sj_y)[0]
-iq_pred = predict(params,iq_X,iq_y,sj_X,sj_y)[1]
+sj_pred = predict(sj_rf_model,sj_forecast)
+iq_pred = predict(iq_rf_model,iq_forecast)
 
 sj_boost = peak_boost(sj_pred, 4, 'max')
 iq_boost = peak_boost(iq_pred, 2.5, 'max')
@@ -175,55 +168,43 @@ iq_boost = peak_boost(iq_pred, 2.5, 'max')
 san_juan = sj_boost[-2:]
 iquitos = iq_boost[-2:]
 
+stop1 = today  + timedelta(days=7)
+stop2 = stop1 + timedelta(days=7)
+stop1 = str(stop1)
+stop2 = str(stop2)
+today = str(today)
 
-#st.form_submit_button('Make prediction')
+City = st.selectbox('Select City:', ('-','San Juan, Puerto Rico', 'Iquitos, Peru'))
 
-
-City = st.sidebar.selectbox('Select City:', ('-','San Juan', 'Iquitos'))
-
-
-if City=='San Juan':
+if City=='San Juan, Puerto Rico':
     if (san_juan[0]+san_juan[1]) > 66:
-        st.header('High Dengue Fever Risk Detected')
+        st.header('High Dengue Fever Risk in San Juan ⚠️')
     elif (san_juan[0]+san_juan[1]) > 29 and iquitos[0] < 67:
-        st.header('Medium Dengue Fever Risk Detected')
+        st.header('Medium Dengue Fever Risk in San Juan ⚠️')
     else:
-        st.header('Low Dengue Fever Risk Detected')
+        st.header('Low Dengue Fever Risk in San Juan ⚠️')
 
     col1, col2= st.columns(2)
 
     with col1:
-        st.header("Next week:")
+        st.text(f"Week starting {today}:")
         st.header(f'{san_juan[0]} cases')
     with col2:
-        st.header("In two weeks:")
+        st.text(f"Week starting {stop1}:")
         st.header(f'{san_juan[1]} cases')
-elif City=='Iquitos':
-    st.header('Iquitos')
-    st.line_chart(data=iquitos)
-    st.text(f'IQ Week 1: {iquitos[0]}')
-    st.text(f'IQ Week 2: {iquitos[1]}')
+elif City=='Iquitos, Peru':
     if (iquitos[0]+iquitos[1]) > 16:
-        st.text('High Risk')
+        st.header('High Dengue Fever Risk in Iquitos ⚠️')
     elif (iquitos[0]+iquitos[1]) > 5 and (iquitos[0]+iquitos[1]) < 17:
-        st.text('Medium Risk')
+        st.header('Medium Dengue Fever Risk in Iquitos ⚠️')
     else:
-        st.text('Low Risk')
-else:
-    header= st.container()
-    with header:
-        st.title('Dengue Fever Forecast')
-    explanation=st.container()
-    dataset= st.container()
-    facts= st.container()
-    features=st.container()
-    model_training=st.container()
-    with explanation:
-        st.header('Explanation of our App/ model')
-        st.text('Explanation of why our predicitions are important...')
-    with facts:
-        st.header('Facts about Dengue Fever!')
-        st.text('basic background facts about dengue...')
-    with features:
-        st.header('Most important features:')
-        st.text('Explanation of features..')
+        st.header('Low Dengue Fever Risk in Iquitos ⚠️')
+
+    col1, col2= st.columns(2)
+
+    with col1:
+        st.text(f"Week starting {today}:")
+        st.header(f'{iquitos[0]} cases')
+    with col2:
+        st.text(f"Week starting {stop1}:")
+        st.header(f'{iquitos[1]} cases')
