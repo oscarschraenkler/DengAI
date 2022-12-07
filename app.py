@@ -17,7 +17,7 @@ st.set_page_config(page_title="Dengue Fever Forecast",
 header1, header2= st.columns(2)
 facts= st.container()
 explanation=st.container()
-predict1, predict2= st.columns(2)
+predict1 = st.container()
 with header1:
     st.title('Dengue Fever Forecast')
     st.markdown('Created by Oscar Schraenkler, Anton Kleihues & Tizian Hamm')
@@ -50,16 +50,7 @@ def load_lottieurl(url: str):
         return None
     return r.json()
 with predict1:
-    st.header('Predict cases for next two weeks:')
-with predict2:
-    lottie_mosquito= load_lottieurl('https://assets2.lottiefiles.com/packages/lf20_trge7v5t.json')
-    st_lottie(
-        lottie_mosquito,
-        speed=1,
-        reverse=False,
-        width=100,
-        quality="low")
-# st.snow()
+    st.header('Choose a city to get case predictions:')
 
 @st.cache
 def peak_boost(preds, scalar, mixed=None):
@@ -178,7 +169,7 @@ if City=='San Juan, Puerto Rico':
     elif (san_juan[0]+san_juan[1]) > 29 and iquitos[0] < 67:
         st.header('Medium Dengue Fever Risk in San Juan ⚠️')
     else:
-        st.header('Low Dengue Fever Risk in San Juan ⚠️')
+        st.header('Low Dengue Fever Risk in San Juan ✅')
 
     col1, col2= st.columns(2)
 
@@ -194,7 +185,7 @@ elif City=='Iquitos, Peru':
     elif (iquitos[0]+iquitos[1]) > 5 and (iquitos[0]+iquitos[1]) < 17:
         st.header('Medium Dengue Fever Risk in Iquitos ⚠️')
     else:
-        st.header('Low Dengue Fever Risk in Iquitos ⚠️')
+        st.header('Low Dengue Fever Risk in Iquitos ✅')
 
     col1, col2= st.columns(2)
 
@@ -204,3 +195,13 @@ elif City=='Iquitos, Peru':
     with col2:
         st.text(f"Week starting {stop1}:")
         st.header(f'{iquitos[1]} cases')
+else:
+    block1, block2, block3= st.columns(3)
+    with block2:
+        lottie_mosquito= load_lottieurl('https://assets2.lottiefiles.com/packages/lf20_trge7v5t.json')
+        st_lottie(
+        lottie_mosquito,
+        speed=1,
+        reverse=False,
+        width=100,
+        quality="low")
