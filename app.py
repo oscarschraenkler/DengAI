@@ -17,7 +17,6 @@ st.set_page_config(page_title="Dengue Fever Forecast",
 header1, header2= st.columns(2)
 facts= st.container()
 explanation=st.container()
-features=st.container()
 predict1, predict2= st.columns(2)
 with header1:
     st.title('Dengue Fever Forecast')
@@ -27,24 +26,21 @@ with header2:
     st.image(image, width=180)
 with explanation:
     st.header('The Model')
-    st.markdown('The model uses environmental variables to predict future weekly cases of Dengue Fever.')
+    st.markdown('The model predicts the number of dengue cases for the next two weeks in San Juan (Puerto Rico) and Iquitos (Peru) using a weather forecasting API describing changes in temperature, precipitation, humidity, and more.')
     with st.expander('Read more...'):
-        st.write("The model was trained on climate-related data collected in San Juan, Puerto Rico and Iquitos, Peru. A peak boosting method implementing calculus functions was then mapped on to the predictions to exaggerate the large outbreaks, increasing the accuracy of our predictions.")
-with features:
-    st.header('Most Important Features:')
-    st.markdown('* **Humidity:** The concentration of water vapor present in the air.')
-    st.markdown('* **Dew point temperature:** The temperature to which air must be cooled to become saturated with water vapor, assuming constant air pressure and water content.')
-    st.markdown('* **Air temperature:** The temperature of the air in a location.')
-    with st.expander('Read more...'):
+        st.write("A random forest regressor was trained on over 20 years of weekly climate-related data collected in San Juan and Iquitos. A peak boosting method implementing calculus functions was then mapped on to the predictions to exaggerate the large outbreaks, increasing the accuracy of our predictions.")
+        st.write("**Most Important Features:**")
+        st.markdown('* **Humidity:** The concentration of water vapor present in the air.')
+        st.markdown('* **Dew point temperature:** The temperature to which air must be cooled to become saturated with water vapor, assuming constant air pressure and water content.')
+        st.markdown('* **Air temperature:** The temperature of the air in a location.')
         st.markdown('* **Precipitation:** Any product of the condensation of atmospheric water vapor that falls under gravitational pull from clouds.')
-        st.markdown('* **Diurnal temperature range:** The range between the highest and lowest air temperature that occurs during the same day.')
-        st.markdown('* **Normalized Difference Vegetation Index:** An indicator that describes the relative density and health of vegetation in an area.')
+
 with facts:
     st.header('About Dengue Fever')
     st.markdown('Dengue Fever is a mosquito-borne virus that occurs in tropical regions of the world that can cause high fever, headaches, vomiting, a characteristic skin itching and skin rash, and even death.')
     with st.expander('Read more...'):
         st.markdown('The global incidence of dengue has grown dramatically with about half of the worlds population now at risk, and is estimated to cause a global economic burden of $8.9 billion per year.')
-        st.markdown('The transmission dynamics of dengue are related to climate variables such as temperature and humidity.')
+        st.markdown('The transmission dynamics of dengue are related to climate variables such as temperature and humidity. An understanding of the relationship between climate and dengue dynamics could improve research initiatives and resource allocation to help fight life-threatening pandemics.')
         st.markdown('**Dengue cases distribution throughout the year in San Juan, Puerto Rico and Iquitos, Peru:**')
         image = Image.open('image/distribution.png')
         st.image(image)
