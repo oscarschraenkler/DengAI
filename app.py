@@ -50,7 +50,7 @@ def load_lottieurl(url: str):
         return None
     return r.json()
 with predict1:
-    st.header('Predict Future Cases')
+    st.header('Predict cases for next two weeks:')
 with predict2:
     lottie_mosquito= load_lottieurl('https://assets2.lottiefiles.com/packages/lf20_trge7v5t.json')
     st_lottie(
