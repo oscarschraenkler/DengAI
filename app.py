@@ -25,9 +25,8 @@ facts= st.container()
 explanation=st.container()
 predict1 = st.container()
 with header1:
-    st.title('DengAI: Predicting Dengue Fever Outbreaks')
-    st.markdown('Use this app to predict upcoming Dengue Fever epidemics.')
-    st.text('Created by Oscar Schraenkler, Anton Kleihues & Tizian Hamm')
+    st.title('DengAI: Predict Dengue Fever Outbreaks')
+    st.markdown('Created by Oscar Schraenkler, Anton Kleihues & Tizian Hamm')
 with header2:
     image = Image.open('image/dengai_new.png')
     st.image(image, width=180)
