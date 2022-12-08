@@ -40,6 +40,8 @@ with explanation:
         st.markdown('* **Dew point temperature:** The temperature to which air must be cooled to become saturated with water vapor, assuming constant air pressure and water content.')
         st.markdown('* **Air temperature:** The temperature of the air in a location.')
         st.markdown('* **Precipitation:** Any product of the condensation of atmospheric water vapor that falls under gravitational pull from clouds.')
+        st.write('')
+        st.write('**About the Risk Assessment:** The risk assessment is derived from comparing the prediction to historical case numbers in the specified location and assigning it a low, medium or high classification relative to past values.')
 
 with facts:
     st.header('About Dengue Fever')
@@ -56,20 +58,6 @@ def load_lottieurl(url: str):
     return r.json()
 with predict1:
     st.header('Select a city below to get predictions:')
-
-# Use local CSS
-def local_css(file_name):
-    with open(file_name) as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-local_css("style.css")
-# Load Animation
-animation_symbol = "🦟"
-st.markdown(
-    f"""
-    <div class="snowflake">{animation_symbol}</div>
-    """,
-    unsafe_allow_html=True,
-)
 
 @st.cache
 def peak_boost(preds, scalar, mixed=None):
@@ -228,6 +216,20 @@ if City=='San Juan, Puerto Rico':
     [[18.46633, -66.105721]],
     columns=['lat', 'lon'])
     st.map(df_sj, zoom=6)
+    # Use local CSS
+    def local_css(file_name):
+        with open(file_name) as f:
+            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    local_css("style.css")
+    # Load Animation
+    animation_symbol = "🦟"
+    st.markdown(
+    f"""
+    <div class="snowflake">{animation_symbol}</div>
+    """,
+    unsafe_allow_html=True,
+    )
+
 elif City=='Iquitos, Peru':
     st.text('* Updates daily')
     if (iquitos[0]+iquitos[1]) > 16:
@@ -255,6 +257,18 @@ elif City=='Iquitos, Peru':
     [[-3.7491, -73.2538]],
     columns=['lat', 'lon'])
     st.map(df_iq, zoom=4)
+    def local_css(file_name):
+        with open(file_name) as f:
+            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    local_css("style.css")
+    # Load Animation
+    animation_symbol = "🦟"
+    st.markdown(
+    f"""
+    <div class="snowflake">{animation_symbol}</div>
+    """,
+    unsafe_allow_html=True,
+    )
 else:
     block1, block2, block3= st.columns(3)
     with block2:
