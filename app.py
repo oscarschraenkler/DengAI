@@ -11,8 +11,8 @@ from datetime import timedelta
 from streamlit_lottie import st_lottie
 import json
 
-st.set_page_config(page_title="Dengue Fever Forecast",
-                   page_icon="😷",layout="centered")
+st.set_page_config(page_title="DengAI",
+                   page_icon="⚠️",layout="centered")
 
 st.markdown(""" <style>
 #MainMenu {visibility: hidden;}
@@ -25,8 +25,9 @@ facts= st.container()
 explanation=st.container()
 predict1 = st.container()
 with header1:
-    st.title('Dengue Fever Forecast')
-    st.markdown('Created by Oscar Schraenkler, Anton Kleihues & Tizian Hamm')
+    st.title('DengAI: Predicting Dengue Fever Outbreaks')
+    st.markdown('Use this app to predict upcoming Dengue Fever epidemics.')
+    st.text('Created by Oscar Schraenkler, Anton Kleihues & Tizian Hamm')
 with header2:
     image = Image.open('image/dengai_new.png')
     st.image(image, width=180)
@@ -47,16 +48,15 @@ with facts:
     with st.expander('Read more...'):
         st.markdown('The global incidence of dengue has grown dramatically with about half of the worlds population now at risk, and is estimated to cause a global economic burden of $8.9 billion per year.')
         st.markdown('The transmission dynamics of dengue are related to climate variables such as temperature and humidity. An understanding of the relationship between climate and dengue dynamics could improve research initiatives and resource allocation to help fight life-threatening pandemics.')
-        st.markdown('**Dengue cases distribution throughout the year in San Juan, Puerto Rico and Iquitos, Peru:**')
-        image = Image.open('image/distribution.png')
-        st.image(image)
+
+@st.cache
 def load_lottieurl(url: str):
     r= requests.get(url)
     if r.status_code != 200:
         return None
     return r.json()
 with predict1:
-    st.header('Choose a city to get case predictions:')
+    st.header('Select a city below to get predictions:')
 
 # Use local CSS
 def local_css(file_name):
@@ -104,6 +104,20 @@ def peak_boost(preds, scalar, mixed=None):
             Ser[k] = int(Ser[k]*2)
 
     return np.array([int(x) for x in Ser])
+
+@st.cache
+def get_weather(forecast):
+    cols = ['Avg Precipitation',
+     'Avg Temperature',
+     'Avg Max Temperature',
+     'Avg Min Temperature',
+     'Avg Humidity Percentage',
+     'Avg Dew Point Temperature']
+    weather = forecast.iloc[-2:,:6]
+    weather = pd.DataFrame(np.round(weather,1))
+    weather.rename(columns={'precip':'Avg Precipitation (mm)','temp':'Avg Temperature (°C)','max_temp':'Avg Max Temperature (°C)','min_temp':'Avg Min Temperature (°C)','humidity':'Avg Humidity Percentage (°C)','dew_point':'Avg Dew Point Temperature (°C)'}, inplace = True)
+    weather.rename(index = {26:'Forecast',27:'Forecast',28:'Forecast'}, inplace = True)
+    return weather
 
 @st.cache
 def preprocess_api(url):
@@ -181,46 +195,73 @@ stop1 = str(stop1)
 stop2 = str(stop2)
 today = str(today)
 
+sj_weather_1 = pd.DataFrame(get_weather(sj_forecast).T.iloc[:,0])
+sj_weather_2 = pd.DataFrame(get_weather(sj_forecast).T.iloc[:,1])
+iq_weather_1 = pd.DataFrame(get_weather(iq_forecast).T.iloc[:,0])
+iq_weather_2 = pd.DataFrame(get_weather(iq_forecast).T.iloc[:,1])
+
 City = st.selectbox('Select City:', ('-','San Juan, Puerto Rico', 'Iquitos, Peru'))
 
 if City=='San Juan, Puerto Rico':
+    st.text('* Updates daily')
     if (san_juan[0]+san_juan[1]) > 66:
-        st.header('High Dengue Fever Risk in San Juan 🚨')
+        st.header('Risk Assessment: High 🚨')
     elif (san_juan[0]+san_juan[1]) > 29 and iquitos[0] < 67:
-        st.header('Medium Dengue Fever Risk in San Juan ⚠️')
+        st.header('Risk Assessment: Medium ⚠️')
     else:
-        st.header('Low Dengue Fever Risk in San Juan ✅')
+        st.header('Risk Assessment: Low ✅')
 
     col1, col2= st.columns(2)
 
     with col1:
-        st.text(f"Week starting {today}:")
+        st.markdown(f"Week starting {today}:")
+        st.text(f"DengAI predicts:")
         st.header(f'{san_juan[0]} cases')
+        st.text("... based on these weather conditions:")
+        st.text(sj_weather_1)
     with col2:
-        st.text(f"Week starting {stop1}:")
+        st.markdown(f"Week starting {stop1}:")
+        st.text(f"DengAI predicts:")
         st.header(f'{san_juan[1]} cases')
+        st.text("... based on these weather conditions:")
+        st.text(sj_weather_2)
+    df_sj = pd.DataFrame(
+    [[18.46633, -66.105721]],
+    columns=['lat', 'lon'])
+    st.map(df_sj, zoom=6)
 elif City=='Iquitos, Peru':
+    st.text('* Updates daily')
     if (iquitos[0]+iquitos[1]) > 16:
-        st.header('High Dengue Fever Risk in Iquitos 🚨')
+        st.header('Risk Assessment: High 🚨')
     elif (iquitos[0]+iquitos[1]) > 5 and (iquitos[0]+iquitos[1]) < 17:
-        st.header('Medium Dengue Fever Risk in Iquitos ⚠️')
+        st.header('Risk Assessment: Medium ⚠️')
     else:
-        st.header('Low Dengue Fever Risk in Iquitos ✅')
+        st.header('Risk Assessment: Low ✅')
 
     col1, col2= st.columns(2)
 
     with col1:
-        st.text(f"Week starting {today}:")
+        st.markdown(f"Week starting {today}:")
+        st.text(f"DengAI predicts:")
         st.header(f'{iquitos[0]} cases')
+        st.text("... based on these weather conditions:")
+        st.text(iq_weather_1)
     with col2:
-        st.text(f"Week starting {stop1}:")
+        st.markdown(f"Week starting {stop1}:")
+        st.text(f"DengAI predicts:")
         st.header(f'{iquitos[1]} cases')
+        st.text("... based on these weather conditions:")
+        st.text(iq_weather_2)
+    df_iq = pd.DataFrame(
+    [[-3.7491, -73.2538]],
+    columns=['lat', 'lon'])
+    st.map(df_iq, zoom=4)
 else:
     block1, block2, block3= st.columns(3)
     with block2:
-        lottie_mosquito= load_lottieurl('https://assets9.lottiefiles.com/packages/lf20_kqacgm7o.json')
+        lottie_world= load_lottieurl('https://assets9.lottiefiles.com/packages/lf20_kqacgm7o.json')
         st_lottie(
-        lottie_mosquito,
+        lottie_world,
         speed=2,
         reverse=False,
         width=180,
