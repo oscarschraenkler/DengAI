@@ -6,7 +6,7 @@ By Oscar Schraenkler, Tizian Hamm & Anton Kleihues
 - Type of project: Data Analysis, Regression modeling, Deep learning, Front-end production.
 
 ## Problem Statement
-Dengue fever is a mosquito-borne disease that occurs in tropical parts of the world. In mild cases, symptoms are similar to the flu: fever, rash, and muscle and joint pain. In severe cases, dengue fever can cause severe bleeding, low blood pressure, and even death. Because it is carried by mosquitoes, the transmission dynamics of dengue are related to climate variables such as temperature and precipitation.
+Dengue fever is a mosquito-borne disease that occurs in tropical parts of the world. In mild cases, symptoms are similar to the flu: fever, rash, and muscle and joint pain. In severe cases, dengue fever can cause severe bleeding, low blood pressure, and even death. Since mosquitoes thrive in humid and hot climates, the transmission dynamics of dengue are related to climate variables such as temperature and precipitation.
 
 Our task is to predict the number of dengue cases each week in San Juan and Iquitos based on environmental variables describing changes in temperature, precipitation, vegetation, and more.
 
