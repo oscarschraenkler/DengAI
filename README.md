@@ -6,11 +6,11 @@ By Oscar Schraenkler, Tizian Hamm & Anton Kleihues
 - Type of project: Data Analysis, Regression modeling, Deep learning, Front-end production.
 
 ## Problem Statement
-Dengue fever is a mosquito-borne disease that occurs in tropical parts of the world. In mild cases, symptoms are similar to the flu: fever, rash, and muscle and joint pain. In severe cases, dengue fever can cause severe bleeding, low blood pressure, and even death. Since mosquitoes thrive in humid and hot climates, the transmission dynamics of dengue are related to climate variables such as temperature and precipitation.
+Dengue fever is a disease transmitted by mosquitoes that primarily affects tropical regions of the world. Its symptoms can range from mild flu-like symptoms, such as fever, rash, and muscle and joint pain, to more severe complications such as bleeding, low blood pressure, and even death. As mosquitoes thrive in hot and humid conditions, the transmission of dengue fever is closely tied to climate variables such as temperature and precipitation.
 
-Our task is to predict the number of dengue cases each week in San Juan and Iquitos based on environmental variables describing changes in temperature, precipitation, vegetation, and more.
+Our objective is to predict the number of dengue cases that will occur in San Juan and Iquitos each week based on environmental variables, such as changes in temperature, precipitation, and vegetation.
 
-Accurate dengue fever predictions could help public health workers and local health authorities to better allocate resources towards fighting life threatening epidemics.
+By providing accurate predictions of dengue fever cases, we could help public health workers and local health authorities to better allocate resources towards reducing the impact of potentially life-threatening epidemics.
 
 ## Approach
 We had two weeks to 
@@ -28,4 +28,4 @@ Try out our app [HERE](https://oscarschraenkler-dengue-fever-predictions-app-cca
 - Gather data for other cities in order to expand app to predict cases in other cities.
 - Collaborate with local health authorities to get access to recent data that can improve the accuracy of our model.
 
-Read about all the details of my project on [Medium](https://medium.com/@o.schraenkler/dengai-predicting-dengue-fever-outbreaks-56b201e55983)
+Read about the details of our project on [Medium](https://medium.com/@o.schraenkler/dengai-predicting-dengue-fever-outbreaks-56b201e55983)
