@@ -19,10 +19,9 @@ st.markdown(""" <style>
 footer {visibility: hidden;}
 </style> """, unsafe_allow_html=True)
 
-# Space out the maps so the first one is 2x the size of the other three
 header1, header2 = st.columns((3, 1))
-facts= st.container()
 explanation=st.container()
+about= st.container()
 predict1 = st.container()
 with header1:
     st.title('DengAI: Predict Dengue Fever Outbreaks')
@@ -31,24 +30,31 @@ with header2:
     image = Image.open('image/dengai_new.png')
     st.image(image, width=180)
 with explanation:
-    st.header('The Model')
-    st.markdown('The model predicts the number of dengue cases for the next two weeks in San Juan (Puerto Rico) and Iquitos (Peru) using a weather forecasting API describing changes in temperature, precipitation, humidity, and more.')
+    st.markdown('This app predicts dengue fever cases for the next two weeks in San Juan (Puerto Rico) and Iquitos (Peru) using a weather forecast. The app updates its data and generates new predictions daily. Select a city below to get started.')
     with st.expander('Read more...'):
-        st.write("A random forest regressor was trained on over 20 years of weekly climate-related data collected in San Juan and Iquitos. A peak boosting method implementing calculus functions was then mapped on to the predictions to exaggerate the large outbreaks, increasing the accuracy of our predictions.")
+        st.write("**The Model:**")
+        st.markdown('* The prediction model was inspired by a competition hosted by the "Predict The Next Pandemic Initiative" and achieved a ranking of 589 out of 12,529 submissions, placing it among the top 4.8% of all models submitted.')
+        st.markdown("* The model is a random forest regressor that was trained on over 20 years of weekly climate-related data collected in San Juan and Iquitos.")
+        st.markdown('* The exponential nature of disease spread is difficult for any model to accurately predict, but we attempted to address this challenge by implementing a mathematical peak-boosting function. This function uses calculus and a threshold boost to amplify the peaks in the predictions while leaving the troughs unchanged.')
+        st.write('')
         st.write("**Most Important Features:**")
         st.markdown('* **Humidity:** The concentration of water vapor present in the air.')
         st.markdown('* **Dew point temperature:** The temperature to which air must be cooled to become saturated with water vapor, assuming constant air pressure and water content.')
         st.markdown('* **Air temperature:** The temperature of the air in a location.')
         st.markdown('* **Precipitation:** Any product of the condensation of atmospheric water vapor that falls under gravitational pull from clouds.')
         st.write('')
-        st.write('**About the Risk Assessment:** The risk assessment is derived from comparing the prediction to historical case numbers in the specified location and assigning it a low, medium or high classification relative to past values.')
-
-with facts:
+        st.write("**Future Work:**")
+        st.markdown('* We would like to collaborate with local health authorities to obtain more recent data, which could improve our models.')
+        st.markdown('* We plan to incorporate additional features and account for more exogenous variables.')
+        st.markdown('* We would also like to extend our app to cover more cities and make predictions for a wider range of locations.')
+with about:
     st.header('About Dengue Fever')
-    st.markdown('Dengue Fever is a mosquito-borne virus that occurs in tropical regions of the world that can cause high fever, headaches, vomiting, a characteristic skin itching and skin rash, and even death.')
+    st.markdown('Dengue fever is a disease transmitted by mosquitoes that primarily affects tropical regions of the world. Its symptoms can range from mild flu-like symptoms, such as fever, rash, and muscle and joint pain, to more severe complications such as bleeding, low blood pressure, and even death.')
     with st.expander('Read more...'):
-        st.markdown('The global incidence of dengue has grown dramatically with about half of the worlds population now at risk, and is estimated to cause a global economic burden of $8.9 billion per year.')
-        st.markdown('The transmission dynamics of dengue are related to climate variables such as temperature and humidity. An understanding of the relationship between climate and dengue dynamics could improve research initiatives and resource allocation to help fight life-threatening pandemics.')
+        st.markdown('* The incidence of dengue fever has increased significantly in recent decades, with about half of the worlds population now at risk.')
+        st.markdown('* Dengue fever is estimated to cause a global economic burden of $8.9 billion per year.')
+        st.markdown('* As mosquitoes thrive in hot and humid conditions, the transmission of dengue fever is closely tied to climate variables such as temperature and precipitation.')
+        st.markdown('* There is no specific treatment for dengue fever, and the best way to prevent it is to avoid being bitten by mosquitoes.')
 
 @st.cache
 def load_lottieurl(url: str):
@@ -57,7 +63,7 @@ def load_lottieurl(url: str):
         return None
     return r.json()
 with predict1:
-    st.header('Select a city below to get predictions:')
+    st.header('Select a city to get predictions:')
 
 @st.cache
 def peak_boost(preds, scalar, mixed=None):
@@ -229,6 +235,9 @@ if City=='San Juan, Puerto Rico':
     """,
     unsafe_allow_html=True,
     )
+    st.write('')
+    st.write('**About the Risk Assessment:**')
+    st.markdown('The risk assessment is calculated relative to the historical cases observed in each city. If the predicted number of cases is above the 70th percentile of past cases, we assign a “High” classification. If it is below the 70th percentile but above the 40th percentile, we assign a “Medium” classification, and if it is below the 40th percentile, we assign a “Low” classification.')
 
 elif City=='Iquitos, Peru':
     st.text('* Updates daily')
@@ -269,6 +278,9 @@ elif City=='Iquitos, Peru':
     """,
     unsafe_allow_html=True,
     )
+    st.write('')
+    st.write('**About the Risk Assessment:**')
+    st.markdown('The risk assessment is calculated relative to the historical cases observed in each city. If the predicted number of cases is above the 70th percentile of past cases, we assign a “High” classification. If it is below the 70th percentile but above the 40th percentile, we assign a “Medium” classification, and if it is below the 40th percentile, we assign a “Low” classification.')
 else:
     block1, block2, block3= st.columns(3)
     with block2:

@@ -5,6 +5,7 @@ twine
 wheel>=0.29
 
 # data science
+python=3.10.6
 numpy
 pandas
 scikit-learn
@@ -17,11 +18,7 @@ flake8
 pytest
 yapf
 
-# API
-gcsfs
-google-cloud-storage
-mlflow
-s3fs
+# App
 streamlit
 streamlit-lottie
 requests
