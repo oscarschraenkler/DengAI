@@ -15,7 +15,7 @@ By providing accurate predictions of dengue fever cases, we could help public he
 ## Approach
 We had a timeframe of two weeks to explore the data, develop a model and put it in production. Here were our steps:
 - [Exploratory Data Analysis](notebooks/Exploratory%20Data%20Analysis.ipynb) to understand and clean the data.
-- [Regression models](notebooks/Regression%20Modeling.ipynb) and [deep learning models](notebooks/Deep%20Learning%20Models%20final%20notebook%20Tizian.ipynb) optimized and evaluated.
+- [Regression models](notebooks/Regression%20Modeling.ipynb) and [deep learning models](notebooks/Deep%20Learning%20Models%20Tizian.ipynb) optimized and evaluated.
 - The best performing model, a random forest regressor, was submitted to the competition and ranked 589 out of 12529 submissions, scoring among the top 4.8% of models submitted.
 - This model was then put in production and a [front-end app](app.py) was created using Streamlit. 
 - We [presented](DengAI%20slides.pdf) our project.
