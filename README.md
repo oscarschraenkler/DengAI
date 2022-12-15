@@ -13,7 +13,7 @@ Our objective is to predict the number of dengue cases that will occur in San Ju
 By providing accurate predictions of dengue fever cases, we could help public health workers and local health authorities to better allocate resources towards reducing the impact of potentially life-threatening epidemics.
 
 ## Approach
-We had two weeks to 
+We had a timeframe of two weeks to explore the data, develop a model and put it in production. Here were our steps:
 - [Exploratory Data Analysis](notebooks/Exploratory%20Data%20Analysis.ipynb) to understand and clean the data.
 - [Regression models](notebooks/Regression%20Modeling.ipynb) and [deep learning models](notebooks/Deep%20Learning%20Models%20final%20notebook%20Tizian.ipynb) were optimized and evaluated.
 - The best performing model, a random forest regressor, was submitted to the competition and scored 589 out of 12529 submissions, ranking among the top 4.8% of models submitted.
