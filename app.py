@@ -30,7 +30,7 @@ with header2:
     image = Image.open('image/dengai_new.png')
     st.image(image, width=180)
 with explanation:
-    st.markdown('This app predicts dengue fever cases for the next two weeks in San Juan (Puerto Rico) and Iquitos (Peru) using a weather forecast. The app updates its data and generates new predictions daily. Select a city below to get started.')
+    st.markdown('DengAI is an app that uses a weather forecasting API to predict dengue fever cases in San Juan, Puerto Rico and Iquitos, Peru for the next two weeks. The app updates its data and generates new predictions on a daily basis. Select a city below to get started.')
     with st.expander('Read more...'):
         st.write("**The Model:**")
         st.markdown('* The prediction model was inspired by a competition hosted by the "Predict The Next Pandemic Initiative" and achieved a ranking of 589 out of 12,529 submissions, placing it among the top 4.8% of all models submitted.')
