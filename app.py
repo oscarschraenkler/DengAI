@@ -157,7 +157,7 @@ future = today + timedelta(days=14)
 start = today  - timedelta(days=180)
 future = str(future)
 start = str(start)
-sj_url = f"https://api.open-meteo.com/v1/forecast?latitude=-3.75&longitude=-73.25&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m&models=best_match&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto&start_date={start}&end_date={future}"
+sj_url = f"https://api.open-meteo.com/v1/forecast?latitude=18.47&longitude=-66.11&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m&models=best_match&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto&start_date={start}&end_date={future}"
 iq_url = f"https://api.open-meteo.com/v1/forecast?latitude=-3.75&longitude=-73.25&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m&models=best_match&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto&start_date={start}&end_date={future}"
 sj_forecast = preprocess_api(sj_url)
 iq_forecast = preprocess_api(iq_url)
