@@ -29,3 +29,4 @@ Try out our app [HERE](https://oscarschraenkler-dengue-fever-predictions-app-cca
 - Collaborate with local health authorities to get access to recent data that can improve the accuracy of our model.
 
 Read about the details of our project on [Medium](https://medium.com/@o.schraenkler/dengai-predicting-dengue-fever-outbreaks-56b201e55983)
+Watch the presentation on [YouTube](https://www.youtube.com/watch?v=NWceVsPYP7g)
