@@ -18,7 +18,7 @@ We had a timeframe of two weeks to explore the data, develop a model and put it 
 - [Regression models](notebooks/Regression%20Modeling.ipynb) and [deep learning models](notebooks/Deep%20Learning%20Models%20Tizian.ipynb) were optimized and evaluated to find the best model.
 - The best performing model, a random forest regressor, was submitted to the competition and ranked 589 out of 12529 submissions, scoring among the top 4.8% of models submitted.
 - This model was then put in production and a [front-end app](app.py) was created using Streamlit. 
-- We [presented](DengAI%20slides.pdf) our project.
+- We [presented](https://www.youtube.com/watch?v=NWceVsPYP7g) our project. View the slides [here](DengAI%20slides.pdf).
 
 ## Our App
 The app predicts dengue fever cases for the next two weeks in San Juan and Iquitos using a weather forecasting API. The app updates it's predictions daily with new environmental information.
@@ -28,5 +28,4 @@ Try out our app [HERE](https://oscarschraenkler-dengue-fever-predictions-app-cca
 - Gather data for other cities in order to expand app to predict cases in other cities.
 - Collaborate with local health authorities to get access to recent data that can improve the accuracy of our model.
 
-Read about the details of our project on [Medium](https://medium.com/@o.schraenkler/dengai-predicting-dengue-fever-outbreaks-56b201e55983)
-Watch the presentation on [YouTube](https://www.youtube.com/watch?v=NWceVsPYP7g)
+Read about the details of our project on [Medium](https://medium.com/@o.schraenkler/dengai-predicting-dengue-fever-outbreaks-56b201e55983). Watch the presentation on [YouTube](https://www.youtube.com/watch?v=NWceVsPYP7g).
