@@ -12,7 +12,7 @@ from streamlit_lottie import st_lottie
 import json
 
 st.set_page_config(page_title="DengAI",
-                   page_icon="⚠️",layout="centered")
+                   page_icon="🦟",layout="centered")
 
 st.markdown(""" <style>
 #MainMenu {visibility: hidden;}
