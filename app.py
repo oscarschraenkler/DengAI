@@ -125,7 +125,8 @@ def preprocess_api(url):
     daily_data['time'] = pd.to_datetime(daily_data['time'])
     daily_data = daily_data.groupby(pd.Grouper(key="time", freq="1W")).mean()
 
-    combined_data = hourly_data.join(daily_data)
+    combined_data0 = hourly_data.join(daily_data)
+    combined_data = combined_data0
 
     df = pd.DataFrame()
     df['precip'] = combined_data['precipitation_sum']
@@ -146,11 +147,11 @@ def preprocess_api(url):
         final_df[i+'_2lag'] = final_df[i].shift(+2)
         final_df[i+'_3lag'] = final_df[i].shift(+3)
         final_df[i+'_4lag'] = final_df[i].shift(+4)
-    final_df = final_df.fillna(method='bfill')
+    final_df0 = final_df.fillna(method='bfill')
+    final_df = final_df0.fillna(method='ffill')
 
     return final_df
 
-from datetime import date
 # Returns the date parameters
 today = date.today()
 future = today + timedelta(days=14)
